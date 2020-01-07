@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <style>
+      .todo-wrapper {
+        width: 600px;
+        margin: 0 auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="todo-wrapper">
+      <add-todo id="add-todo-box"></add-todo>
+      <todo-list id="todo-list-table"></todo-list>
+    </div>
+  </body>
+  <script src="./components/todo-list.js"></script>
+  <script src="./components/add-todo.js"></script>
+  <script>
+    ;(function() {
+      const addTodoBox = document.querySelector('#add-todo-box')
+      const todoListTable = document.querySelector('#todo-list-table')
+      const tableData = ['one', 'two', 'three', 'four', 'five']
+      todoListTable.setAttribute('table-data', JSON.stringify(tableData))
+      addTodoBox.addEventListener('add-todo', function(e) {
+        const { value } = e.detail
+        if (tableData.includes(value)) {
+          alert('不可添加相同代办!')
+        } else {
+          tableData.push(value)
+          todoListTable.setAttribute('table-data', JSON.stringify(tableData))
+        }
+      })
+      todoListTable.addEventListener('del-todo', function(e) {
+        const { index } = e.detail
+        tableData.splice(index, 1)
+        todoListTable.setAttribute('table-data', JSON.stringify(tableData))
+      })
+      todoListTable.addEventListener('edit-todo', function(e) {
+        const { index, value } = e.detail
+        tableData[index] = value
+        todoListTable.setAttribute('table-data', JSON.stringify(tableData))
+      })
+    })()
+  </script>
+</html>

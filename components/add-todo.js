@@ -35,9 +35,13 @@
       const input = this.shadowRoot.querySelector('input')
       const value = input.value.trim()
       if (!value) {
-        alert('you must write something todo!')
+        alert('不可提交空代办!')
       } else {
-        this.dispatchEvent(new CustomEvent('add-todo', { detail: value }))
+        this.dispatchEvent(new CustomEvent('add-todo', {
+          detail: {
+            value
+          }
+        }))
       }
       input.value = ''
     }
