@@ -24,25 +24,33 @@
     ;(function() {
       const addTodoBox = document.querySelector('#add-todo-box')
       const todoListTable = document.querySelector('#todo-list-table')
-      const tableData = ['one', 'two', 'three', 'four', 'five']
+      const tableData = []
       todoListTable.setAttribute('table-data', JSON.stringify(tableData))
       addTodoBox.addEventListener('add-todo', function(e) {
         const { value } = e.detail
-        if (tableData.includes(value)) {
+        const isIn = tableData.find((todo) => todo.value === value)
+        if (isIn) {
           alert('不可添加相同代办!')
         } else {
-          tableData.push(value)
+          tableData.push({ value })
           todoListTable.setAttribute('table-data', JSON.stringify(tableData))
         }
       })
       todoListTable.addEventListener('del-todo', function(e) {
+        console.log(e)
         const { index } = e.detail
         tableData.splice(index, 1)
         todoListTable.setAttribute('table-data', JSON.stringify(tableData))
       })
       todoListTable.addEventListener('edit-todo', function(e) {
+        console.log(e)
+        const { index } = e.detail
+        tableData[index].isEdit = true
+        todoListTable.setAttribute('table-data', JSON.stringify(tableData))
+      })
+      todoListTable.addEventListener('save-todo', function(e) {
         const { index, value } = e.detail
-        tableData[index] = value
+        tableData[index] = { value }
         todoListTable.setAttribute('table-data', JSON.stringify(tableData))
       })
     })()
